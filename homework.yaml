@@ -1,0 +1,90 @@
+---
+- name: Prepare GUID environment variable across all hosts
+  hosts: all
+  tasks:
+    - name: All GUID env variable
+      shell: export GUID=`hostname | cut -d"." -f2`; echo "export GUID=$GUID" >> $HOME/.bashrc
+
+- name: Verify Installation and Configuration of Docker
+  hosts: nodes
+  tasks:
+    - name: docker restart
+      shell: systemctl restart docker
+
+- name: Verify NFS Shared Volumes on Hosts
+  hosts: nfs
+  tasks:
+
+- name: Install packages and config auth
+  hosts: localhost
+  tasks:
+    - name: required packages are present
+      yum:
+        name:
+          - ????
+          - ????
+        state: present
+    - name: Configure Authentication Against IPA (LDAP) Server
+      shell: cd /root && wget http://ipa.shared.example.opentlc.com/ipa/config/ca.crt -O /root/ipa-ca.crt
+
+- name: Generate Inventory Hosts File
+  hosts: localhost
+  tasks:
+    - name: Generate Inventory script
+      script: /root/ocp_advanced_deployment_homework/scripts/generate_inventory.sh
+
+- name: Execute the openshift-ansible prerequisites
+  import_playbook: ???
+
+- name: Execute the openshift-ansible Deployer
+  import_playbook: ???
+
+- name: Verify OpenShift Cluster
+  hosts: masters[0]
+  tasks:
+    - name: copy the .kube directory from master1 to your bastion
+    ????
+
+- name: Post installation configuration
+  hosts: localhost
+  tasks:
+    - name: make sure you are system:dmin
+      shell: oc whoami | grep system:admin
+
+- name: Create PVs for Users
+  hosts: nfs
+  tasks:
+    - name:
+      script: ????
+    - name: Restarting NFS Server...
+      shell: systemctl restart nfs-server
+
+- name: Create 25 definitions files for PVs 5G size
+  hosts: localhost
+
+- name: Create 25 definitions files for PVs 10G size
+
+- name: Create all PVs from definitions files
+
+- name: Fix NFS Persistent Volume Recycling
+
+- name: Smoke Test
+
+- name: Jenkins Setup
+  hosts: localhost
+  tasks:
+    - name: jenkins setup
+      script: ???
+
+- name: HPA configuration on production deployment of openshift-tasks
+  hosts: localhost
+  tasks:
+
+- name: Creation of users for Alpha and Beta clients
+
+- name: Assigning labels to the users according to its group
+
+- name: Setup the environment for Alpha and Beta clients
+
+
+  ....

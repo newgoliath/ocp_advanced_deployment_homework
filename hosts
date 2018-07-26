@@ -1,0 +1,110 @@
+[OSEv3:vars]
+
+###########################################################################
+### Ansible Vars
+###########################################################################
+timeout=60
+ansible_become=yes
+ansible_ssh_user=ec2-user
+
+###########################################################################
+### OpenShift Basic Vars
+###########################################################################
+openshift_deployment_type=openshift-enterprise
+deployment_type=openshift-enterprise
+containerized=false
+openshift_disable_check="memory_availability"
+
+# Default node selectors
+osm_default_node_selector='client=common'
+openshift_hosted_infra_selector="env=infra"
+
+###########################################################################
+### OpenShift Master Vars
+###########################################################################
+
+openshift_master_api_port=443
+openshift_master_console_port=443
+
+openshift_master_cluster_method=native
+openshift_master_cluster_hostname=????
+openshift_master_cluster_public_hostname=????
+openshift_master_default_subdomain=????
+#openshift_master_ca_certificate={'certfile': '/root/intermediate_ca.crt', 'keyfile': '/root/intermediate_ca.key'}
+openshift_master_overwrite_named_certificates=True
+
+# Set this line to enable NFS
+openshift_enable_unsupported_configurations=True
+
+###########################################################################
+### OpenShift Network Vars
+###########################################################################
+
+os_sdn_network_plugin_name='redhat/openshift-ovs-networkpolicy'
+
+###########################################################################
+### OpenShift Authentication Vars
+###########################################################################
+
+# ldap or htpasswd 
+# ???
+
+###########################################################################
+### OpenShift Router and Registry Vars
+###########################################################################
+
+###########################################################################
+### OpenShift Service Catalog Vars
+###########################################################################
+
+###########################################################################
+### OpenShift Metrics and Logging Vars
+###########################################################################
+
+###########################################################################
+### OpenShift Prometheus Vars
+###########################################################################
+
+# Necessary because of a bug in the installer on 3.9
+openshift_prometheus_node_exporter_image_version=v3.9
+
+###########################################################################
+### OpenShift Hosts
+###########################################################################
+[OSEv3:children]
+lb
+masters
+etcd
+nodes
+nfs
+
+[lb]
+loadbalancer1.GUID.internal
+
+[masters]
+master1.GUID.internal
+master2.GUID.internal
+master3.GUID.internal
+
+[etcd]
+master1.GUID.internal
+master2.GUID.internal
+master3.GUID.internal
+
+[nodes]
+## These are the masters
+master1.GUID.internal openshift_hostname=master1.GUID.internal openshift_node_labels="{'env':'master', 'cluster': 'GUID'}"
+master2.GUID.internal openshift_hostname=master2.GUID.internal openshift_node_labels="{'env':'master', 'cluster': 'GUID'}"
+master3.GUID.internal openshift_hostname=master3.GUID.internal openshift_node_labels="{'env':'master', 'cluster': 'GUID'}"
+
+## These are infranodes
+infranode1.GUID.internal openshift_hostname=infranode1.GUID.internal  openshift_node_labels="{'env':'infra', 'cluster': 'GUID'}"
+infranode2.GUID.internal openshift_hostname=infranode2.GUID.internal  openshift_node_labels="{'env':'infra', 'cluster': 'GUID'}"
+
+## These are regular nodes
+node1.GUID.internal openshift_hostname=node1.GUID.internal  openshift_node_labels="{'client':'alpha', 'cluster': 'GUID'}"
+node2.GUID.internal openshift_hostname=node2.GUID.internal  openshift_node_labels="{'client':'beta', 'cluster': 'GUID'}"
+node3.GUID.internal openshift_hostname=node3.GUID.internal  openshift_node_labels="{'client':'common', 'cluster': 'GUID'}"
+
+[nfs]
+support1.GUID.internal openshift_hostname=support1.GUID.internal
