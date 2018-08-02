@@ -24,8 +24,6 @@
           - ????
           - ????
         state: present
-    - name: Configure Authentication Against IPA (LDAP) Server
-      shell: cd /root && wget http://ipa.shared.example.opentlc.com/ipa/config/ca.crt -O /root/ipa-ca.crt
 
 - name: Generate Inventory Hosts File
   hosts: localhost
